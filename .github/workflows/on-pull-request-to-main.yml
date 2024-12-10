@@ -10,6 +10,9 @@ jobs:
   check-pr-title:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Get PR Title
         id: get_pr_title
         run: |
