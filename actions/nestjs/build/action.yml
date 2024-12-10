@@ -18,7 +18,19 @@ runs:
   - name: Install dependencies
     shell: bash
     run: npm install
+  
+  - name: Check code formatting
+    shell: bash
+    run: npm run format:check
+  
+  - name: Code linting
+    shell: bash
+    run: npm run lint
 
   - name: Run unit tests with coverage
     shell: bash
     run: npm run test:cov
+
+  - name: Build application
+    shell: bash
+    run: npm run build
