@@ -2,9 +2,10 @@ name: Build nestjs application
 
 inputs:
   node-version:
-    required: true
-    type: string
     description: the nodejs version the application builds
+    type: string
+    required: false
+    default: '20'
 
 runs:
   using: 'composite'
