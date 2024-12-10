@@ -1,0 +1,21 @@
+name: Conventional Pull Request Title
+description: Validates if a pull request title is compliant with conventional commits specs
+
+inputs:
+  pr-title:
+    description: the pr title to validate
+    type: string
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Validate Title Matches Conventional Commit Pattern
+      shell: bash
+      run: |
+        if [[ ! "${{ inputs.pr-title }}" =~ ^(feat|fix|chore|docs|style|refactor|perf|test)(\([a-z0-9-]+\))?:\ [A-Za-z0-9\ ]+$ ]]; then
+          echo "ERROR: PR title does not follow Conventional Commits format."
+          echo "The title must follow the format: type(scope): message"
+          exit 1
+        fi
+        echo "PR title is valid."

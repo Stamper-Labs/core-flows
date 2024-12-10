@@ -1,0 +1,26 @@
+name: On pull request to main
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches:
+      - 'main'
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Get PR Title
+        id: get_pr_title
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "PR Title: $PR_TITLE"
+          echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
+
+      - name: Validate PR Title
+        uses: ./actions/core/conventional-pr-title
+        with:
+          pr-title: ${{ steps.get_pr_title.outputs.pr_title }}
