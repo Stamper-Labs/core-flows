@@ -1,0 +1,13 @@
+plugins {
+    id("pl.allegro.tech.build.axion-release") version "1.18.16"
+}
+
+scmVersion {
+    useHighestVersion.set(true)
+    versionCreator("simple")
+    releaseOnlyOnReleaseBranches = true
+    releaseBranchNames = ["main"]
+    ignoreUncommittedChanges.set(false)
+}
+
+version = scmVersion.version

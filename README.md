@@ -1,1 +1,1 @@
-# stp-workflows
+# workflows
