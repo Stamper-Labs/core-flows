@@ -1,0 +1,16 @@
+name: On push to main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Build Script
+        run: echo "Building on push to main branch!"

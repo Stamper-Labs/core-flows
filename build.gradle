@@ -1,0 +1,10 @@
+plugins {
+    id("pl.allegro.tech.build.axion-release") version "1.18.16"
+}
+
+scmVersion {
+    localOnly.set(true)
+    useHighestVersion.set(true)
+}
+
+version = scmVersion.version
