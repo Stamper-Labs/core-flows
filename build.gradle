@@ -4,8 +4,8 @@ plugins {
 
 scmVersion {
     versionCreator("simple")
-    //releaseOnlyOnReleaseBranches = true
-    //releaseBranchNames = ["main"]
+    releaseOnlyOnReleaseBranches = true
+    releaseBranchNames = ["main"]
     ignoreUncommittedChanges.set(false)
 }
 
