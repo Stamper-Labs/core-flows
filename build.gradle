@@ -5,6 +5,9 @@ plugins {
 scmVersion {
     localOnly.set(true)
     useHighestVersion.set(true)
+    versionCreator('simple')
+    //releaseOnlyOnReleaseBranches = true
+    //releaseBranchNames = ['main']
 }
 
 version = scmVersion.version
