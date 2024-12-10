@@ -3,12 +3,11 @@ plugins {
 }
 
 scmVersion {
-    //localOnly.set(true)
-    //useHighestVersion.set(true)
-    versionCreator('simple')
-    //releaseOnlyOnReleaseBranches = true
-    //releaseBranchNames = ['main']
-    //ignoreUncommittedChanges.set(false)
+    useHighestVersion.set(true)
+    versionCreator("simple")
+    releaseOnlyOnReleaseBranches = true
+    releaseBranchNames = ["main"]
+    ignoreUncommittedChanges.set(false)
 }
 
 version = scmVersion.version
