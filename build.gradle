@@ -7,19 +7,6 @@ scmVersion {
     //releaseOnlyOnReleaseBranches = true
     //releaseBranchNames = ["main"]
     ignoreUncommittedChanges.set(false)
-
-        hooks {
-            pre { context ->
-                println "Pre-release hook triggered!"
-                println "Previous version: ${context.previousVersion}"
-                println "Release version: ${context.releaseVersion}"
-            }
-            post { context ->
-                println "Post-release hook triggered!"
-                println "Released version: ${context.releaseVersion}"
-                println "Current branch: ${context.position.branch}"
-            }
-        }
 }
 
 version = scmVersion.version
