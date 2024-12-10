@@ -9,7 +9,9 @@ runs:
       node-version: '20'
 
   - name: Install dependencies
+    shell: bash
     run: npm install
-    
+
   - name: Run unit tests with coverage
+    shell: bash
     run: npm run test:cov
