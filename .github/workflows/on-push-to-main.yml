@@ -14,3 +14,5 @@ jobs:
 
       - name: Create and Push Release Tag
         run: ./gradlew release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
