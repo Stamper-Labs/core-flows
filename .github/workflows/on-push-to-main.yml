@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # This allows pushing changes (including tags)
+  contents: write
 
 jobs:
   build:
