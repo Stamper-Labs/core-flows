@@ -12,6 +12,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Set Up Git
+        run: |
+          git config user.email "mcwiise@gmail.com"
+          git config user.name "Captain Mcwiise"
+
       - name: Create and Push Release Tag
         run: ./gradlew release
         env:
