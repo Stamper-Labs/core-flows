@@ -1,12 +1,18 @@
 name: Build nestjs application
 
+inputs:
+  node-version:
+    required: true
+    type: string
+    description: the nodejs version the application builds
+
 runs:
   using: 'composite'
   steps:
   - name: Set up Node.js
     uses: actions/setup-node@v3
     with:
-      node-version: '20'
+      node-version: ${{ inputs.node-version }}
 
   - name: Install dependencies
     shell: bash
