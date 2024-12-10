@@ -3,41 +3,23 @@ plugins {
 }
 
 scmVersion {
-    useHighestVersion.set(true)
     versionCreator("simple")
-    releaseOnlyOnReleaseBranches = true
-    releaseBranchNames = ["main"]
+    //releaseOnlyOnReleaseBranches = true
+    //releaseBranchNames = ["main"]
     ignoreUncommittedChanges.set(false)
+
+        hooks {
+            pre { context ->
+                println "Pre-release hook triggered!"
+                println "Previous version: ${context.previousVersion}"
+                println "Release version: ${context.releaseVersion}"
+            }
+            post { context ->
+                println "Post-release hook triggered!"
+                println "Released version: ${context.releaseVersion}"
+                println "Current branch: ${context.position.branch}"
+            }
+        }
 }
 
 version = scmVersion.version
-
-tasks.register("commitsSinceLastMerge") {
-    group = "verification"
-    description = "Retrieves commits since the last merge to main."
-
-    doLast {
-        // Find the merge base (last common ancestor)
-        def mergeBase = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "merge-base", "main", "HEAD"
-            standardOutput = mergeBase
-        }
-
-        // Retrieve commits since the merge base
-        def commits = new ByteArrayOutputStream()
-        exec {
-            commandLine "git", "log", "${mergeBase.toString().trim()}..HEAD", "--pretty=format:%s", "--no-merges"
-            standardOutput = commits
-        }
-
-        // Print the commits
-        def commitMessages = commits.toString().trim()
-        if (commitMessages) {
-            println "✅ Commits since the last merge to main:"
-            println commitMessages
-        } else {
-            println "ℹ️ No commits since the last merge to main."
-        }
-    }
-}
