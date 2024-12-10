@@ -4,8 +4,8 @@ plugins {
 
 scmVersion {
     versionCreator('simple')
-    //releaseOnlyOnReleaseBranches = trueadsf
-    //releaseBranchNames = ['main']asdf
+    //releaseOnlyOnReleaseBranches = true
+    //releaseBranchNames = ['main']
 }
 
 version = scmVersion.version
