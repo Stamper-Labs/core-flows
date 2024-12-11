@@ -1,0 +1,35 @@
+name: Build Nestjs Application
+description: Build a NestJS application and package the compiled dist folder 
+  alongside the package.json and package-lock.json files for deployment or distribution.
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install dependencies
+      run: npm install
+      shell: bash
+
+    - name: Check code formatting
+      run: npm run format:check
+      shell: bash
+
+    - name: Code linting
+      run: npm run lint
+      shell: bash
+
+    - name: Run unit tests with coverage
+      run: npm run test:cov
+      shell: bash
+
+    - name: Build application
+      run: npm run build
+      shell: bash
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-output
+        path: |
+          dist/
+          package.json
+          package-lock.json
