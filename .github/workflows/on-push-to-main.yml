@@ -23,6 +23,7 @@ jobs:
       - name: Create and Push Release Tag
         run: |
           git fetch origin
+          git pull origin main
           git merge origin/${GITHUB_REF##*/} --no-edit
           ./gradlew release
         env:
