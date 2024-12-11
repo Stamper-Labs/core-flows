@@ -2,9 +2,24 @@ name: Build Nestjs Application
 description: Build a NestJS application and package the compiled dist folder 
   alongside the package.json and package-lock.json files for deployment or distribution.
 
+inputs:
+  node-version:
+    required: true
+    type: string
+    description: The nodejs version to build the app with
+    default: "20"
+
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
+    - name: Setup Nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{inputs.node-version}}
+
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
     - name: Install dependencies
       run: npm install
       shell: bash
