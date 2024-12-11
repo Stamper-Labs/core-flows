@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set Up Git
         run: |
@@ -22,9 +24,6 @@ jobs:
 
       - name: Create and Push Release Tag
         run: |
-          git fetch
-          git pull origin main
-          ./gradlew cV
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
