@@ -19,9 +19,11 @@ jobs:
         run: |
           git config user.email "mcwiise@gmail.com"
           git config user.name "Captain Mcwiise"
-          git branch
 
       - name: Create and Push Release Tag
-        run: ./gradlew release
+        run: |
+          git fetch origin
+          ./gradlew release
+          git merge origin/main --no-edit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
