@@ -22,6 +22,8 @@ jobs:
 
       - name: Create and Push Release Tag
         run: |
+          git fetch
+          git pull origin main
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
