@@ -7,8 +7,6 @@ scmVersion {
     releaseOnlyOnReleaseBranches = true
     releaseBranchNames = ["main"]
     ignoreUncommittedChanges.set(false)
-    unshallowRepoOnCI.set(true)
-
 }
 
 version = scmVersion.version
