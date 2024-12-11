@@ -23,7 +23,7 @@ jobs:
       - name: Create and Push Release Tag
         run: |
           git fetch origin
-          git merge origin/${GITHUB_REF##*/} --no-edit
+          git pull origin main
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
