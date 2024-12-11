@@ -24,6 +24,7 @@ jobs:
         run: |
           git fetch
           git pull origin main
+          ./gradlew cV
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
