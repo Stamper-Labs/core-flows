@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           GITHUB_REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          PUBLISHED_VERSION=${{ steps.create_release.outputs.published_version }}
+          PUBLISHED_VERSION=${{ steps.create_release.outputs.released-version }}
           
           echo "the github repo name: $GITHUB_REPO_NAME"
           echo "the PUBLISHED_VERSION: $PUBLISHED_VERSION"
@@ -46,9 +46,9 @@ jobs:
 
       - name: Create GitHub Release
         run: |
-          gh release create "${{ steps.create_release.outputs.published_version }}" \
-            --title "Release ${{ steps.create_release.outputs.published_version }}" \
-            --notes "This is an automated release for version ${{ steps.create_release.outputs.published_version }}" \
+          gh release create "${{ steps.create_release.outputs.released-version }}" \
+            --title "Release ${{ steps.create_release.outputs.released-version }}" \
+            --notes "This is an automated release for version ${{ steps.create_release.outputs.released-version }}" \
             "${{ steps.collect_assets.outputs.assets-file-name }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
