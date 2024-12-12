@@ -2,20 +2,20 @@ name: Build Nestjs Application
 description: |
   This action builds a NestJS application, running necessary tasks such as code formatting checks, linting, 
   unit testing, and packaging the application for deployment. It packages the compiled `dist` folder 
-  alongside the `package.json` and `package-lock.json` files, which can be used for further deployment or distribution. 
-  Optionally, it can bump the application version if specified.
+  alongside the `package.json` and `package-lock.json` files for distribution. Optionally, it can bump 
+  the application version if specified.
 
 inputs:
   node-version:
     required: false
     type: string
-    description: The nodejs version to build the app with.
+    description: The Node.js version to build the app with.
     default: "20"
+
   release-mode:
     required: false
     type: boolean
-    description: determines if the action must bump a new version
-      after the build is done.
+    description: Determines if the action must bump a new version after the build.
     default: false
 
 runs:
@@ -24,7 +24,7 @@ runs:
     - name: Setup Nodejs
       uses: actions/setup-node@v4
       with:
-        node-version: ${{inputs.node-version}}
+        node-version: ${{ inputs.node-version }}
 
     - name: Install dependencies
       shell: bash
@@ -67,9 +67,6 @@ runs:
 
     - name: Bump a new version
       shell: bash
-      if: ${{inputs.release-mode}}
+      if: ${{ inputs.release-mode == 'true' }}  # Proper boolean evaluation
       run: |
-        # Bump a new version
         npm run release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
