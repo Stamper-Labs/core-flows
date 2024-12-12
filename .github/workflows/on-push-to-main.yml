@@ -45,6 +45,6 @@ jobs:
           gh release create "${{ steps.create_release.outputs.published_version }}" \
             --title "Release ${{ steps.create_release.outputs.published_version }}" \
             --notes "This is an automated release for version ${{ steps.create_release.outputs.published_version }}" \
-            --assets "${{ steps.collect_assets.outputs.assets-file-name }}"
+            "${{ steps.collect_assets.outputs.assets-file-name }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
