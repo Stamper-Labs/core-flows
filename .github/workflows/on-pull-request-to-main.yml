@@ -18,9 +18,9 @@ jobs:
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "PR Title: $PR_TITLE"
-          echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
+          echo "pr-title=$PR_TITLE" >> $GITHUB_OUTPUT
 
       - name: Validate PR Title
-        uses: .src/core/conventional-pr-title/v1
+        uses: ./src/core/conventional-pr-title/v1
         with:
-          pr-title: ${{ steps.get_pr_title.outputs.pr_title }}
+          pr-title: ${{ steps.get_pr_title.outputs.pr-title }}
