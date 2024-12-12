@@ -64,6 +64,7 @@ runs:
           dist/
           package.json
           package-lock.json
+          Dockerfile
 
     - name: Bump a new version
       shell: bash
