@@ -37,7 +37,7 @@ jobs:
           PUBLISHED_VERSION=${{ steps.create_release.outputs.published_version }}
           
           echo "the github repo name: $GITHUB_REPO_NAME"
-          echo "the PUBLISHED_VERSION: PUBLISHED_VERSION"
+          echo "the PUBLISHED_VERSION: $PUBLISHED_VERSION"
 
           ASSETS_FILE_NAME="${GITHUB_REPO_NAME}-${PUBLISHED_VERSION}.zip"
           echo "github-repo-name=$GITHUB_REPO_NAME" >> $GITHUB_OUTPUT
