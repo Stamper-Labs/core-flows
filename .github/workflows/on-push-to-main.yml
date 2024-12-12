@@ -33,16 +33,18 @@ jobs:
         id: collect_assets
         shell: bash
         run: |
-          GITHUB_REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
+          GITHUB_REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
           PUBLISHED_VERSION=${{ steps.create_release.outputs.published_version }}
-          ASSETS_FILE_NAME=$GITHUB_REPO_NAME-$PUBLISHED_VERSION.zip
+          ASSETS_FILE_NAME="${GITHUB_REPO_NAME}-${PUBLISHED_VERSION}.zip"
           echo "github-repo-name=$GITHUB_REPO_NAME" >> $GITHUB_OUTPUT
           echo "assets-file-name=$ASSETS_FILE_NAME" >> $GITHUB_OUTPUT
-          zip -r $ASSETS_FILE_NAME ./
+          zip -r "$ASSETS_FILE_NAME" ./
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: assets
-          path: |
-            ${{ steps.collect_assets.outputs.assets-file-name }}
+      - name: Create GitHub Release
+        run: |
+          gh release create "${{ steps.create_release.outputs.published_version }}" \
+            --title "Release ${{ steps.create_release.outputs.published_version }}" \
+            --notes "This is an automated release for version ${{ steps.create_release.outputs.published_version }}" \
+            --assets "${{ steps.collect_assets.outputs.assets-file-name }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
