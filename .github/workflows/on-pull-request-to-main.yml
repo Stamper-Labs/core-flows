@@ -18,9 +18,9 @@ jobs:
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "PR Title: $PR_TITLE"
-          echo "pr_title=$PR_TITLE" >> $GITHUB_ENV  # Use $GITHUB_ENV for setting outputs
+          echo "pr-title=$PR_TITLE" >> $GITHUB_OUTPUT
 
       - name: Validate PR Title
-        uses: .src/core/conventional-pr-title/v1
+        uses: ./src/core/conventional-pr-title/v1
         with:
-          pr-title: ${{ env.pr_title }}  # Use $env to access the variable set by $GITHUB_ENV
+          pr-title: ${{ steps.get_pr_title.outputs.pr-title }}
