@@ -21,6 +21,6 @@ jobs:
           echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
 
       - name: Validate PR Title
-        uses: ./core/conventional-pr-title/v1
+        uses: .src/core/conventional-pr-title/v1
         with:
           pr-title: ${{ steps.get_pr_title.outputs.pr_title }}
