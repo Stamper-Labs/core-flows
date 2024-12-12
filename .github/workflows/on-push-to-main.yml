@@ -29,26 +29,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Collect assets
-        id: collect_assets
-        shell: bash
-        run: |
-          GITHUB_REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          PUBLISHED_VERSION=${{ steps.create_release.outputs.released-version }}
-          
-          echo "the github repo name: $GITHUB_REPO_NAME"
-          echo "the PUBLISHED_VERSION: $PUBLISHED_VERSION"
-
-          ASSETS_FILE_NAME="${GITHUB_REPO_NAME}-${PUBLISHED_VERSION}.zip"
-          echo "github-repo-name=$GITHUB_REPO_NAME" >> $GITHUB_OUTPUT
-          echo "assets-file-name=$ASSETS_FILE_NAME" >> $GITHUB_OUTPUT
-          zip -r "$ASSETS_FILE_NAME" ./
-
       - name: Create GitHub Release
         run: |
-          gh release create "${{ steps.create_release.outputs.released-version }}" \
-            --title "Release ${{ steps.create_release.outputs.released-version }}" \
-            --notes "This is an automated release for version ${{ steps.create_release.outputs.released-version }}" \
-            "${{ steps.collect_assets.outputs.assets-file-name }}"
+          RELEASED_TAG="v${{ steps.create_release.outputs.released-version }}"
+          if git rev-parse "$RELEASED_TAG" >/dev/null 2>&1; then
+            echo "Proceeding to create GitHub release for $RELEASED_TAG"
+            gh release create "$RELEASED_TAG" \
+            --title "$RELEASED_TAG" \
+            --notes "This is an automated release for version $RELEASED_TAG."
+          else
+            echo "Tag $RELEASED_TAG does not exist. GitHub Release cannot be created."
+            exit 1
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
