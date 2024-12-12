@@ -30,7 +30,7 @@ runs:
       shell: bash
       run: |
         # Install dependencies
-        npm install
+        npm ci
 
     - name: Check code formatting
       shell: bash
