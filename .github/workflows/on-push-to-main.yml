@@ -12,18 +12,37 @@ jobs:
   prepare-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Set Up Git
+      - name: Set up git
         run: |
           git config user.email "mcwiise@gmail.com"
           git config user.name "Captain Mcwiise"
 
       - name: Create and Push Release Tag
+        id: create_release
         run: |
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Collect assets
+        id: collect_assets
+        shell: bash
+        run: |
+          GITHUB_REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
+          PUBLISHED_VERSION=${{ steps.create_release.outputs.published_version }}
+          ASSETS_FILE_NAME=$GITHUB_REPO_NAME-$PUBLISHED_VERSION.zip
+          echo "github-repo-name=$GITHUB_REPO_NAME" >> $GITHUB_OUTPUT
+          echo "assets-file-name=$ASSETS_FILE_NAME" >> $GITHUB_OUTPUT
+          zip -r $ASSETS_FILE_NAME ./
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: |
+            ${{ steps.collect_assets.outputs.assets-file-name }}

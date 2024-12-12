@@ -1,0 +1,73 @@
+name: Build Nestjs Application
+description: |
+  This action builds a NestJS application, running necessary tasks such as code formatting checks, linting, 
+  unit testing, and packaging the application for deployment. It packages the compiled `dist` folder 
+  alongside the `package.json` and `package-lock.json` files, which can be used for further deployment or distribution. 
+  Optionally, it can bump the application version if specified.
+
+inputs:
+  node-version:
+    required: false
+    type: string
+    description: The nodejs version to build the app with.
+    default: "20"
+  release-mode:
+    required: false
+    type: boolean
+    description: determines if the action must bump a new version
+      after the build is done.
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{inputs.node-version}}
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        # Install dependencies
+        npm install
+
+    - name: Check code formatting
+      shell: bash
+      run: |
+        # Check code formatting
+        npm run format:check
+
+    - name: Code linting
+      shell: bash
+      run: |
+        # Code linting
+        npm run lint
+
+    - name: Run unit tests with coverage
+      shell: bash
+      run: |
+        # Run unit tests with coverage
+        npm run test:cov
+
+    - name: Build application
+      shell: bash
+      run: |
+        # Build application
+        npm run build
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-output
+        path: |
+          dist/
+          package.json
+          package-lock.json
+
+    - name: Bump a new version
+      shell: bash
+      if: ${{inputs.release-mode}}
+      run: |
+        # Bump a new version
+        npm run release
