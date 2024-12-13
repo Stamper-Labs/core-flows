@@ -33,7 +33,7 @@ jobs:
         run: |
           IMAGE_NAME=${{ env.REGISTRY_DOMAIN }}/${{ github.repository }}:${{ inputs.app-version }}
           LOWERCASE_IMAGE_NAME=$(echo "$IMAGE_NAME" | tr '[:upper:]' '[:lower:]')
-          echo "image-name=LOWERCASE_IMAGE_NAME" >> $GITHUB_OUTPUT
+          echo "image-name=$LOWERCASE_IMAGE_NAME" >> $GITHUB_OUTPUT
 
       - name: Build And Push Docker Image
         uses: docker/build-push-action@v3
