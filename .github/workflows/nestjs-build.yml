@@ -54,11 +54,11 @@ jobs:
             Dockerfile
 
       - name: Set up git
-        if: ${{ inputs.release-mode == 'true' }}
+        if: ${{ inputs.release-mode }}
         run: |
           git config user.email "mcwiise@gmail.com"
           git config user.name "Captain Mcwiise"
 
       - name: Bump a new version
-        if: ${{ inputs.release-mode == 'true' }}
+        if: ${{ inputs.release-mode }}
         run: npm run release
