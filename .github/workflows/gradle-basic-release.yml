@@ -1,5 +1,8 @@
 name: Gradle Basic Application Release
 
+on:
+  workflow_call:
+
 permissions:
   contents: write
 

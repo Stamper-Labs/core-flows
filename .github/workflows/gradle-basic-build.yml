@@ -1,5 +1,8 @@
 name: Build Gradle Basic Application
 
+on:
+  workflow_call:
+
 jobs:
   check-pr-title:
     runs-on: ubuntu-latest
