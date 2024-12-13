@@ -11,4 +11,4 @@ permissions:
 jobs:
   release:
     name: Release Workflows Toolkit
-    uses: ./.github/workflows/blueprint/v1/gradle-basic-release.yml
+    uses: ./.github/workflows/blueprint/v1/gradle-basic-local-release.yml
