@@ -31,7 +31,7 @@ jobs:
       - name: Set Image Tag Name
         id: set_image_name
         run: |
-          IMAGE_NAME=${{ env.REGISTRY_DOMAIN }}/ ${{ github.repository }}:${{ inputs.app-version }}
+          IMAGE_NAME=${{ env.REGISTRY_DOMAIN }}/${{ github.repository }}:${{ inputs.app-version }}
           echo "image-name=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
       - name: Build And Push Docker Image
