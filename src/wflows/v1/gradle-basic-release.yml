@@ -1,9 +1,4 @@
-name: On push to main
-
-on:
-  push:
-    branches:
-      - main
+name: Gradle Basic Application Release
 
 permissions:
   contents: write
@@ -12,19 +7,16 @@ jobs:
   prepare-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Set up git
-        run: |
-          git config user.email "mcwiise@gmail.com"
-          git config user.name "Captain Mcwiise"
-
       - name: Create and Push Release Tag
         id: create_release
         run: |
+          git config user.email "mcwiise@gmail.com"
+          git config user.name "Captain Mcwiise"
           ./gradlew release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

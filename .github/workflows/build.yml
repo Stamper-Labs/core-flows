@@ -1,4 +1,4 @@
-name: On pull request to main
+name: Build
 
 on:
   pull_request:
@@ -9,4 +9,4 @@ on:
 jobs:
   build:
     name: Build Workflows Toolkit
-    uses: Stamper-Labs/workflows-toolkit/src/wflows/gradle-basic-build.yml@main
+    uses: ./src/wflows/v1/gradle-basic-build.yml
