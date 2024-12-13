@@ -9,4 +9,4 @@ on:
 jobs:
   build:
     name: Build Workflows Toolkit
-    uses: ./src/wflows/v1/gradle-basic-build.yml
+    uses: ./.github/workflows/blueprint/v1/gradle-basic-build.yml
