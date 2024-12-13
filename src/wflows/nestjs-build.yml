@@ -1,0 +1,62 @@
+name: Build Nestjs Application
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: false
+        type: string
+        description: The NodeJS version to build the app with.
+        default: "20"
+      release-mode:
+        required: false
+        type: boolean
+        description: Determines if the action must bump a new version after the build.
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting
+        run: npm run format:check
+
+      - name: Code linting
+        run: npm run lint
+
+      - name: Run unit tests with coverage
+        run: npm run test:cov
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: |
+            dist/
+            package.json
+            package-lock.json
+            Dockerfile
+
+      - name: Set up git
+        if: ${{ inputs.release-mode == 'true' }}
+        run: |
+          git config user.email "mcwiise@gmail.com"
+          git config user.name "Captain Mcwiise"
+
+      - name: Bump a new version
+        if: ${{ inputs.release-mode == 'true' }}
+        run: npm run release

@@ -1,0 +1,12 @@
+name: On pull request to main
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Build Workflows Toolkit
+    uses: Stamper-Labs/workflows-toolkit/src/wflows/gradle-basic-build.yml@main

@@ -1,10 +1,4 @@
-name: On pull request to main
-
-on:
-  pull_request:
-    types: [opened, reopened, edited, synchronize]
-    branches:
-      - 'main'
+name: Build Gradle Basic Application
 
 jobs:
   check-pr-title:
