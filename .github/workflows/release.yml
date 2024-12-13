@@ -11,4 +11,4 @@ permissions:
 jobs:
   release:
     name: Release Workflows Toolkit
-    uses: ./src/wflows/v1/gradle-basic-build.yml
+    uses: ./blueprints/v1/gradle-basic-build.yml
