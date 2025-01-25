@@ -15,7 +15,8 @@ on:
         default: false
 
 jobs:
-  build:
+  build-app:
+    name: Build Application ( release mode :: ${{ inputs.release-mode }})
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
