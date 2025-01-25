@@ -11,6 +11,7 @@ on:
 
 jobs:
   dockerize:
+    name: Dockerize
     runs-on: ubuntu-latest
     env: # Define constants here
       REGISTRY_DOMAIN: "ghcr.io"
