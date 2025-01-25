@@ -10,5 +10,5 @@ permissions:
 
 jobs:
   release:
-    name: Release Workflows Toolkit
+    name: Release Core Workflows
     uses: ./.github/workflows/gradle-basic-release.yml
