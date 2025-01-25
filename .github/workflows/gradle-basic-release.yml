@@ -7,16 +7,17 @@ permissions:
   contents: write
 
 jobs:
-  prepare-release:
+  create-github-release:
+    name: Create GitHub Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Create and Push Release Tag
-        id: create_release
+      - name: Create and push git tag
+        id: cp-tag
         run: |
           git config user.email "mcwiise@gmail.com"
           git config user.name "Captain Mcwiise"
@@ -24,9 +25,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub Release
+      - name:  Create a GitHub release for the specified tag
         run: |
-          RELEASED_TAG="v${{ steps.create_release.outputs.released-version }}"
+          RELEASED_TAG="v${{ steps.cp-tag.outputs.released-version }}"
           if git rev-parse "$RELEASED_TAG" >/dev/null 2>&1; then
             echo "Proceeding to create GitHub release for $RELEASED_TAG"
             gh release create "$RELEASED_TAG" \
