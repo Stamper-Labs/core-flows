@@ -68,6 +68,9 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@1.22.22 --activate
+          
+      - name: Clean and install
+        run: yarn install --frozen-lockfile
 
       - name: Setup git user
         run: |
