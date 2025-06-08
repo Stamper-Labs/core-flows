@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/Stamper-Labs/core-flows/compare/v0.2.0...v1.0.0) (2025-06-08)
+
+
+### Features
+
+* migrate to npm ([387c26d](https://github.com/Stamper-Labs/core-flows/commit/387c26d11a8f205bd0e75256708089a4b590cef2))
+
+
+### BREAKING CHANGES
+
+* introducing npm as package manager
+
 # [0.2.0](https://github.com/Stamper-Labs/core-flows/compare/v0.1.39...v0.2.0) (2025-06-08)
 
 
