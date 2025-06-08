@@ -1,3 +1,3 @@
 # Core Flows
 
-Generic workflows
+Reusable GitHub Actions workflows for standardized CI/CD pipelines across multiple projects.
