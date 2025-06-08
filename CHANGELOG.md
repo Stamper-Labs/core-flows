@@ -1,3 +1,10 @@
+## [0.1.39](https://github.com/Stamper-Labs/core-flows/compare/v0.1.38...v0.1.39) (2025-06-08)
+
+
+### Bug Fixes
+
+* add docs ([3569311](https://github.com/Stamper-Labs/core-flows/commit/3569311dd79121ada3f309038a8b8c9843025c39))
+
 ## [0.1.38](https://github.com/Stamper-Labs/core-flows/compare/v0.1.37...v0.1.38) (2025-06-08)
 
 
