@@ -1,0 +1,18 @@
+{
+  "name": "core-flows",
+  "version": "2.0.0",
+  "description": "generic workflows",
+  "repository": "https://github.com/Stamper-Labs/core-flows.git",
+  "author": "Captain Mcwiise <mcwiise@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "release": "semantic-release"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^24.2.4"
+  }
+}
