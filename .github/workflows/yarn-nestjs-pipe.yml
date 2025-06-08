@@ -94,19 +94,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Needed to fetch tags
 
-      - name: Get version to push
-        id: get_version
-        run: | 
-          VERSION=$(node -p "require('./package.json').version")
-          echo "Version to push: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Get released tag
+        id: get_tag
+        run: |
+          git fetch --tags --force
+          tag=$(git tag --sort=-creatordate | head -n 1)
+          echo "Latest tag is: $tag"
+          echo "tag=$tag" >> $GITHUB_OUTPUT
 
       - name: Checkout code at tag
         uses: actions/checkout@v3
         with:
-          ref:  v${{ steps.get_version.outputs.version }}
+          ref: ${{ steps.get_tag.outputs.tag }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -117,15 +118,16 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
+        
       - name: Build Docker image
         id: build_image
         run: |
+          TAG_NO_V=$(echo "${{ steps.get_tag.outputs.tag }}" | sed 's/^v//')
           GITHUB_REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
-          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/$GITHUB_REPO_NAME:$${{ steps.get_version.outputs.version }}"
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/$GITHUB_REPO_NAME:$TAG_NO_V"
           echo "Building Docker image: $IMAGE_URI"
-          docker build -t $GITHUB_REPO_NAME:$${{ steps.get_version.outputs.version }} .
-          docker tag $GITHUB_REPO_NAME:$${{ steps.get_version.outputs.version }} $IMAGE_URI
+          docker build -t $GITHUB_REPO_NAME:$TAG_NO_V .
+          docker tag $GITHUB_REPO_NAME:$TAG_NO_V $IMAGE_URI
           echo "image_uri=$IMAGE_URI" >> $GITHUB_OUTPUT
       
       - name: Push to ECR
