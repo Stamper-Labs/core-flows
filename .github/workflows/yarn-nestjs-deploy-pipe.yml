@@ -36,7 +36,7 @@ jobs:
           echo "GitHub project key: ${{ inputs.gb_project_key }}"
           echo "GitHub application name: ${{ inputs.gb_app_name }}"
           echo "ECS cluster name: ${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster"
-          echo "ECR Repo: ${{ inputs.gb_project_key}} - ${{ inputs.gb_app_name }}"
+          echo "ECR Repo: ${{ inputs.gb_project_key}}-${{ inputs.gb_app_name }}"
 
           echo "TAG=${{ inputs.branch }}" >> $GITHUB_ENV
           echo "ENVIRONMENT=${{ inputs.env }}" >> $GITHUB_ENV
