@@ -1,4 +1,4 @@
-name: NestJS ipeline (Yarn)
+name: NestJS Pipeline (Yarn)
 
 on:
   workflow_call:

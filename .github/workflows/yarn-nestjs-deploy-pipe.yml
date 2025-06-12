@@ -1,0 +1,77 @@
+name: On Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag to deploy from (e.g., v1.2.3)'
+        required: true
+        type: string
+      env:
+        description: 'Select environment to deploy'
+        required: true
+        type: choice
+        options:
+          - stg
+          - prod
+      gb_project_key:
+        description: 'GitHub project key as configured in env variables. i.e. stdpi'
+        required: true
+        type: string
+      gb_app_name:
+        description: 'GitHub application name as configured in env variables. i.e. onboarding-api' 
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code at tag
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.tag }}
+
+      - name: Set environment variables
+        run: |
+          echo "Deploying tag ${{ inputs.tag }} to ${{ inputs.env }} environment"
+          echo "GitHub project key: ${{ inputs.gb_project_key }}"
+          echo "GitHub application name: ${{ inputs.gb_app_name }}"
+          echo "ECS cluster name: ${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster"
+          echo "ECR Repo: ${{ inputs.gb_project_key}} - ${{ inputs.gb_app_name }}"
+
+          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=${{ inputs.env }}" >> $GITHUB_ENV
+          echo "GB_PROJECT_KEY=${{ inputs.gb_project_key }}" >> $GITHUB_ENV
+          echo "GB_APP_NAME=${{ inputs.gb_app_name }}" >> $GITHUB_ENV
+          echo "ECR_REPO=${{ inputs.gb_project_key }}-${{ inputs.gb_app_name }}" >> $GITHUB_ENV
+          echo "ECS_CLUSTER_NAME=${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::050752613795:role/STDServiceRoleForGitHub
+          aws-region: us-east-1
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Update ECS servicex
+        env:
+          AWS_REGION: us-east-1
+        run: |
+          TAG_NO_V=$(echo "${TAG}" | sed 's/^v//')
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/$ECR_REPO:$TAG_NO_V"
+          SERVICE_NAME="$GB_PROJECT_KEY-$ENVIRONMENT-ecs-fsvc-$GB_APP_NAME"
+          echo "Deploying image: $IMAGE_URI"
+          aws ecs update-service \
+            --cluster $ECS_CLUSTER_NAME \
+            --service $SERVICE_NAME \
+            --force-new-deployment \
+            --region $AWS_REGION \
+            --output json \
+            --deployment-configuration "maximumPercent=200,minimumHealthyPercent=100" \
+            --desired-count 1 \
+            --no-cli-pager
