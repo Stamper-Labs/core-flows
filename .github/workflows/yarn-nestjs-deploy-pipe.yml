@@ -3,8 +3,8 @@ name: On Deploy
 on:
   workflow_call:
     inputs:
-      tag:
-        description: 'Git tag to deploy from (e.g., v1.2.3)'
+      branch:
+        description: 'Git branch or tag to deploy from'
         required: true
         type: string
       env:
@@ -28,17 +28,17 @@ jobs:
       - name: Checkout code at tag
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ inputs.branch }}
 
       - name: Set environment variables
         run: |
-          echo "Deploying tag ${{ inputs.tag }} to ${{ inputs.env }} environment"
+          echo "Deploying tag ${{ inputs.branch }} to ${{ inputs.env }} environment"
           echo "GitHub project key: ${{ inputs.gb_project_key }}"
           echo "GitHub application name: ${{ inputs.gb_app_name }}"
           echo "ECS cluster name: ${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster"
           echo "ECR Repo: ${{ inputs.gb_project_key}} - ${{ inputs.gb_app_name }}"
 
-          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
+          echo "TAG=${{ inputs.branch }}" >> $GITHUB_ENV
           echo "ENVIRONMENT=${{ inputs.env }}" >> $GITHUB_ENV
           echo "GB_PROJECT_KEY=${{ inputs.gb_project_key }}" >> $GITHUB_ENV
           echo "GB_APP_NAME=${{ inputs.gb_app_name }}" >> $GITHUB_ENV
