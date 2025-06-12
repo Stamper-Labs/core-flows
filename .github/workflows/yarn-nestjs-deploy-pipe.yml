@@ -1,7 +1,7 @@
 name: On Deploy
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       tag:
         description: 'Git tag to deploy from (e.g., v1.2.3)'
@@ -10,10 +10,7 @@ on:
       env:
         description: 'Select environment to deploy'
         required: true
-        type: choice
-        options:
-          - stg
-          - prod
+        type: string
       gb_project_key:
         description: 'GitHub project key as configured in env variables. i.e. stdpi'
         required: true
