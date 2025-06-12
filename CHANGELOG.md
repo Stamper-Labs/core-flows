@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Stamper-Labs/core-flows/compare/v1.0.1...v1.1.0) (2025-06-12)
+
+
+### Features
+
+* add deployment generic workflow ([#29](https://github.com/Stamper-Labs/core-flows/issues/29)) ([6ae4f50](https://github.com/Stamper-Labs/core-flows/commit/6ae4f505c9bf1fae8e793bbb4364140b32026ad1))
+
 ## [1.0.1](https://github.com/Stamper-Labs/core-flows/compare/v1.0.0...v1.0.1) (2025-06-08)
 
 
