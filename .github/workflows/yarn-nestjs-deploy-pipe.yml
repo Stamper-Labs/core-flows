@@ -68,10 +68,11 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::050752613795:role/STDServiceRoleForGitHub
           aws-region: us-east-1
-          
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Terraform 1.12.2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
 
       - name: Init and verify terraform plan
         run: |
@@ -80,4 +81,7 @@ jobs:
           
       - name: Apply terraform plan
         run: yarn tf:apply --env $ENVIRONMENT --image_tag $TAG --auto-approve
-        
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
