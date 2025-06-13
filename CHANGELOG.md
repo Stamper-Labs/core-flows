@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/Stamper-Labs/core-flows/compare/v1.2.1...v1.2.2) (2025-06-13)
+
+
+### Bug Fixes
+
+* set correct tag ([aae22f9](https://github.com/Stamper-Labs/core-flows/commit/aae22f94b9f57e8c170132e694ed378e91e3df09))
+
 ## [1.2.1](https://github.com/Stamper-Labs/core-flows/compare/v1.2.0...v1.2.1) (2025-06-13)
 
 
