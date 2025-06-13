@@ -88,9 +88,9 @@ jobs:
         run: |
           yarn tf:output --env $ENVIRONMENT > outputs.json
           SANITIZED_APP_NAME=${GB_APP_NAME//-/_}
-          ECS_TASK_DEFINITION=$(outputs.json | jq -r ".${SANITIZED_APP_NAME}_task_definition_arn.value")
-          SUBNET_ID=$(outputs.json | jq -r ".vpc_subnet_id.value")
-          ALLOW_HTTP_SECURITY_GROUP_ID=$(outputs.json | jq -r ".allow_http_security_group_id.value")
+          ECS_TASK_DEFINITION=$(jq -r ".${SANITIZED_APP_NAME}_task_definition_arn.value" < outputs.json)
+          SUBNET_ID=$(jq -r ".vpc_subnet_id.value" < outputs.json)
+          ALLOW_HTTP_SECURITY_GROUP_ID=$(jq -r ".allow_http_security_group_id.value" < outputs.json)
 
           echo "ECS_TASK_DEFINITION_ARN=$ECS_TASK_DEFINITION" >> $GITHUB_ENV
           echo "VPC_SUBNET_ID=$SUBNET_ID" >> $GITHUB_ENV
