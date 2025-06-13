@@ -86,7 +86,8 @@ jobs:
 
       - name: Export Terraform outputs
         run: |
-          ECS_TASK_DEFINITION=$(yarn tf:output --env $ENVIRONMENT | jq -r ".${GB_APP_NAME}_task_definition_arn.value")
+          SANITIZED_APP_NAME=${GB_APP_NAME//-/_}
+          ECS_TASK_DEFINITION=$(yarn tf:output --env $ENVIRONMENT | jq -r ".${SANITIZED_APP_NAME}_task_definition_arn.value")
           SUBNET_ID=$(yarn tf:output --env $ENVIRONMENT | jq -r ".vpc_subnet_id.value")
           ALLOW_HTTP_SECURITY_GROUP_ID=$(yarn tf:output --env $ENVIRONMENT | jq -r ".allow_http_security_group_id.value")
 
