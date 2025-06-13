@@ -1,3 +1,10 @@
+## [1.2.9](https://github.com/Stamper-Labs/core-flows/compare/v1.2.8...v1.2.9) (2025-06-13)
+
+
+### Bug Fixes
+
+* create ecs service ([1401600](https://github.com/Stamper-Labs/core-flows/commit/1401600921f172642720a9359cf3de858bec6c2e))
+
 ## [1.2.8](https://github.com/Stamper-Labs/core-flows/compare/v1.2.7...v1.2.8) (2025-06-13)
 
 
