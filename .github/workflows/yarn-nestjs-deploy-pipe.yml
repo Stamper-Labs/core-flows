@@ -86,9 +86,9 @@ jobs:
 
       - name: Export Terraform outputs
         run: |
-          ECS_TASK_DEFINITION=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".${GB_APP_NAME}_task_definition_arn.value")
-          SUBNET_ID=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".vpc_subnet_id.value")
-          ALLOW_HTTP_SECURITY_GROUP_ID=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".allow_http_security_group_id.value")
+          ECS_TASK_DEFINITION=$(yarn tf:output --env $ENVIRONMENT | jq -r ".${GB_APP_NAME}_task_definition_arn.value")
+          SUBNET_ID=$(yarn tf:output --env $ENVIRONMENT | jq -r ".vpc_subnet_id.value")
+          ALLOW_HTTP_SECURITY_GROUP_ID=$(yarn tf:output --env $ENVIRONMENT | jq -r ".allow_http_security_group_id.value")
 
           echo "ECS_TASK_DEFINITION_ARN=$ECS_TASK_DEFINITION" >> $GITHUB_ENV
           echo "VPC_SUBNET_ID=$SUBNET_ID" >> $GITHUB_ENV
