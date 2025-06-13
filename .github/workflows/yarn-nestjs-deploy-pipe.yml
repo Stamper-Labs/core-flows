@@ -77,10 +77,10 @@ jobs:
       - name: Init and verify terraform plan
         run: |
           yarn tf:init --env $ENVIRONMENT
-          yarn tf:plan --env $ENVIRONMENT --image_tag $TAG
+          yarn tf:plan --env $ENVIRONMENT --image-tag $TAG
           
       - name: Apply terraform plan
-        run: yarn tf:apply --env $ENVIRONMENT --image_tag $TAG --auto-approve
+        run: yarn tf:apply --env $ENVIRONMENT --image-tag $TAG --auto-approve
           
       - name: Login to Amazon ECR
         id: login-ecr
