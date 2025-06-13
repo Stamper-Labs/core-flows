@@ -88,6 +88,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "Running terraform output and exporting variables..."
+          yarn tf:output --env "$ENVIRONMENT"
           yarn tf:output --env "$ENVIRONMENT" > outputs.json
 
           SANITIZED_APP_NAME="${GB_APP_NAME//-/_}"
