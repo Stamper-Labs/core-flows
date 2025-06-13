@@ -88,10 +88,12 @@ jobs:
         run: |
           set -euo pipefail
           echo "Running terraform output and exporting variables..."
-          yarn tf:output --env "$ENVIRONMENT"
           yarn tf:output --env "$ENVIRONMENT" > outputs.json
+          cat outputs.json
 
           SANITIZED_APP_NAME="${GB_APP_NAME//-/_}"
+          echo "SANITIZED_APP_NAME=$SANITIZED_APP_NAME"
+          
           ECS_TASK_DEFINITION=$(jq -r ".${SANITIZED_APP_NAME}_task_definition_arn.value" < outputs.json)
           SUBNET_ID=$(jq -r ".vpc_subnet_id.value" < outputs.json)
           ALLOW_HTTP_SECURITY_GROUP_ID=$(jq -r ".allow_http_security_group_id.value" < outputs.json)
