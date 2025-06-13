@@ -90,7 +90,7 @@ jobs:
           echo "Running terraform output and exporting variables..."
 
           # Save Terraform output to file
-          yarn tf:output --env "$ENVIRONMENT" > outputs.json
+          yarn tf:output --env "$ENVIRONMENT" | tail -n +2 > outputs.json
 
           # Optional: display the outputs for debugging
           cat outputs.json
