@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Stamper-Labs/core-flows/compare/v1.1.1...v1.2.0) (2025-06-13)
+
+
+### Features
+
+* create a deployment wf ([a55ce18](https://github.com/Stamper-Labs/core-flows/commit/a55ce180fa7ce601209c3c140b612ab509e28049))
+
 ## [1.1.1](https://github.com/Stamper-Labs/core-flows/compare/v1.1.0...v1.1.1) (2025-06-12)
 
 
