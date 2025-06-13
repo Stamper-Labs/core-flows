@@ -55,6 +55,7 @@ jobs:
           echo "GitHub application name: ${{ inputs.gb_app_name }}"
           echo "ECS cluster name: ${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster"
           echo "ECR Repo: ${{ inputs.gb_project_key}}-${{ inputs.gb_app_name }}"
+          echo "ECS Service: ${{ inputs.gb_project_key}}-${{ inputs.env }}-ecs-service-${{ inputs.gb_app_name }}"
 
           echo "TAG=${{ inputs.branch }}" >> $GITHUB_ENV
           echo "ENVIRONMENT=${{ inputs.env }}" >> $GITHUB_ENV
@@ -62,6 +63,7 @@ jobs:
           echo "GB_APP_NAME=${{ inputs.gb_app_name }}" >> $GITHUB_ENV
           echo "ECR_REPO=${{ inputs.gb_project_key }}-${{ inputs.gb_app_name }}" >> $GITHUB_ENV
           echo "ECS_CLUSTER_NAME=${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster" >> $GITHUB_ENV
+          echo "ECS_SERVICE_NAME=${{ inputs.gb_project_key}}-${{ inputs.env }}-ecs-service-${{ inputs.gb_app_name }}" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -78,10 +80,45 @@ jobs:
         run: |
           yarn tf:init --env $ENVIRONMENT
           yarn tf:plan --env $ENVIRONMENT --image-tag $TAG
-          
+      
       - name: Apply terraform plan
         run: yarn tf:apply --env $ENVIRONMENT --image-tag $TAG --auto-approve
-          
+
+      - name: Export Terraform outputs
+        run: |
+          ECS_TASK_DEFINITION=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".${GB_APP_NAME}_task_definition_arn.value")
+          SUBNET_ID=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".vpc_subnet_id.value")
+          ALLOW_HTTP_SECURITY_GROUP_ID=$(yarn tf:output --env $ENVIRONMENT -json | jq -r ".allow_http_security_group_id.value")
+
+          echo "ECS_TASK_DEFINITION_ARN=$ECS_TASK_DEFINITION" >> $GITHUB_ENV
+          echo "VPC_SUBNET_ID=$SUBNET_ID" >> $GITHUB_ENV
+          echo "ALLOW_HTTP_SECURITY_GROUP_ID=$ALLOW_HTTP_SECURITY_GROUP_ID" >> $GITHUB_ENV
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Check if ECS service exists
+        id: check-ecs-service
+        run: |
+          SERVICE_EXISTS=$(aws ecs describe-services \
+            --cluster "$ECS_CLUSTER_NAME" \
+            --services "$ECS_SERVICE_NAME" \
+            --query "services[0].status" \
+            --output text 2>/dev/null || echo "MISSING")
+
+          echo "SERVICE_EXISTS=$SERVICE_EXISTS"
+          echo "service_status=$SERVICE_EXISTS" >> $GITHUB_OUTPUT
+
+      - name: Create the ECS service
+        if: steps.check-ecs-service.outputs.service_status != 'ACTIVE'
+        run: | 
+          echo "ECS service does not exist. Creating service..."
+          aws ecs create-service \
+            --cluster "$ECS_CLUSTER_NAME" \
+            --service-name "$ECS_SERVICE_NAME" \
+            --task-definition "$ECS_TASK_DEFINITION_ARN" \
+            --desired-count 1 \
+            --launch-type "FARGATE" \
+            --network-configuration "awsvpcConfiguration={subnets=[$VPC_SUBNET_ID],securityGroups=[$ALLOW_HTTP_SECURITY_GROUP_ID]}" \
+            --platform-version "LATEST"
