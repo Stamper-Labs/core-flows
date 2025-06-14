@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Stamper-Labs/core-flows/compare/v1.3.0...v1.4.0) (2025-06-14)
+
+
+### Features
+
+* create deploy workflow to ECS ([#32](https://github.com/Stamper-Labs/core-flows/issues/32)) ([d77fcb8](https://github.com/Stamper-Labs/core-flows/commit/d77fcb8d7f7c3c97f6c11f9c5dfdf1fc495e1c76))
+
 # [1.3.0](https://github.com/Stamper-Labs/core-flows/compare/v1.2.17...v1.3.0) (2025-06-14)
 
 
