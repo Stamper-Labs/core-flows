@@ -130,3 +130,13 @@ jobs:
             --launch-type "FARGATE" \
             --network-configuration "awsvpcConfiguration={subnets=[$VPC_SUBNET_ID],securityGroups=[$ALLOW_HTTP_SECURITY_GROUP_ID]}" \
             --platform-version "LATEST"
+
+      - name: Update the ECS service
+        if: steps.check-ecs-service.outputs.service_status == 'ACTIVE'
+        run: | 
+          echo "Redeploying ECS service..."
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER_NAME" \
+            --service "$ECS_SERVICE_NAME" \
+            --task-definition "$ECS_TASK_DEFINITION_ARN" \
+            --force-new-deployment
