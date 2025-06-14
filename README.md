@@ -26,3 +26,5 @@ jobs:
       release-mode: false
     secrets: inherit
 ```
+
+### NestJS CI/CD Deploy Pipeline (Yarn)
