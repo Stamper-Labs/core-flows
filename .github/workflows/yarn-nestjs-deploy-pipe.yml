@@ -53,7 +53,7 @@ jobs:
           echo "Deploying tag ${{ inputs.branch }} to ${{ inputs.env }} environment"
           echo "GitHub project key: ${{ inputs.gb_project_key }}"
           echo "GitHub application name: ${{ inputs.gb_app_name }}"
-          echo "ECS cluster name: ${{ inputs.gb_project_key }}-${{ inputs.env }}-ecs-cluster"
+          echo "ECS cluster name: ${{ inputs.gb_project_key }}_${{ inputs.env }}_ecs_cluster"
           echo "ECR Repo: ${{ inputs.gb_project_key}}-${{ inputs.gb_app_name }}"
           echo "ECS Service: ${{ inputs.gb_project_key}}-${{ inputs.env }}-ecs-service-${{ inputs.gb_app_name }}"
 
